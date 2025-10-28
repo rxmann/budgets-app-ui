@@ -1,28 +1,95 @@
-import AppAreaChart from "@/components/AppAreaChart";
-import AppBarChart from "@/components/AppBarChart";
-import AppPieChart from "@/components/AppPieChart";
-import CardList from "@/components/CardList";
-import TodoList from "@/components/TodoList";
+"use client";
 
+import { BudgetCategoryAreaChart } from "@/components/BudgetCategoryAreaChart";
+import {
+  CardData,
+  DashboardSectionCards,
+} from "@/components/DashboardSectionCard";
+
+const chartData = [
+  { date: "Jan 01", groceries: 1200, utilities: 300, entertainment: 400 },
+  { date: "Jan 02", groceries: 1400, utilities: 320, entertainment: 350 },
+  { date: "Jan 03", groceries: 1100, utilities: 310, entertainment: 500 },
+  { date: "Jan 04", groceries: 1300, utilities: 280, entertainment: 420 },
+  { date: "Jan 05", groceries: 1500, utilities: 330, entertainment: 380 },
+  { date: "Jan 06", groceries: 1200, utilities: 300, entertainment: 450 },
+  { date: "Jan 07", groceries: 1400, utilities: 320, entertainment: 400 },
+  // Add more data as needed
+];
+const categories = [
+  { key: "groceries", label: "Groceries", color: "hsl(var(--chart-1))" },
+  { key: "utilities", label: "Utilities", color: "hsl(var(--chart-2))" },
+  {
+    key: "entertainment",
+    label: "Entertainment",
+    color: "hsl(var(--chart-3))",
+  },
+];
 export default function DashboardPage() {
+  const dashboardCards: CardData[] = [
+    {
+      label: "Total Budget",
+      value: "$5,250.00",
+      change: 12.5,
+      description: "Trending up this month",
+      footer: "Budget allocation for this period",
+      trend: "up",
+    },
+    {
+      label: "Income",
+      value: "$8,500.00",
+      change: 8.2,
+      description: "Strong income this month",
+      footer: "Total earnings received",
+      trend: "up",
+    },
+    {
+      label: "Expense",
+      value: "$3,250.00",
+      change: -5.3,
+      description: "Down from last month",
+      footer: "Total spending this period",
+      trend: "down",
+    },
+    {
+      label: "Recurring Budgets",
+      value: "2",
+      change: 1,
+      description: "New today",
+      footer: "Payments auto added today",
+      trend: "up",
+    },
+    {
+      label: "Reminders Today",
+      value: "3",
+      change: 0,
+      description: "Pending actions",
+      footer: "Payments due today",
+      trend: "up",
+    },
+  ];
+
+  const handleTimeRangeChange = (range: "7d" | "30d" | "90d") => {
+    console.log("Time range changed to:", range);
+    // Fetch new data based on time range
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4">
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2">
-        <AppBarChart />
+    <div className="@container/main flex flex-1 flex-col gap-2">
+      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+        <DashboardSectionCards cards={dashboardCards} />
       </div>
-      <div className="bg-primary-foreground p-4 rounded-lg">
-        <CardList title="Latest Transactions" />
+      <div className="flex flex-col gap-4 px-4 py-6 lg:px-6">
+        <BudgetCategoryAreaChart
+          title="Budget by Category"
+          description="Spending trends across your budget categories"
+          data={chartData}
+          categories={categories}
+          timeRange="30d"
+          onTimeRangeChange={handleTimeRangeChange}
+        />
       </div>
-      <div className="bg-primary-foreground p-4 rounded-lg">
-        <AppPieChart />
-      </div>
-      <div className="bg-primary-foreground p-4 rounded-lg"><TodoList /></div>
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2">
-        <AppAreaChart />
-      </div>
-      <div className="bg-primary-foreground p-4 rounded-lg">
-        <CardList title="Popular Content" />
-      </div>
+      {/* rest of your dashboard */}
     </div>
   );
 }

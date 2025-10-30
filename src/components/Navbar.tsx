@@ -4,11 +4,16 @@ import { LogOut, Moon, Settings, Sun, User } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 import { useTheme } from "next-themes";
-import { SidebarTrigger, useSidebar } from "./sidebar";
-
-
+import { SidebarTrigger, useSidebar } from "./ui/sidebar";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -22,24 +27,33 @@ const Navbar = () => {
       </Button> */}
       {/* RIGHT */}
       <div className="flex items-center gap-4">
-        <Link href="/home">Home</Link>
+        <Link href="/dashboard">Home</Link>
         {/* THEME MENU */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="cursor-pointer">
-            <Button variant="outline" size="icon" >
+            <Button variant="outline" size="icon">
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => setTheme("light")}
+              className="cursor-pointer"
+            >
               Light
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => setTheme("dark")}
+              className="cursor-pointer"
+            >
               Dark
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => setTheme("system")}
+              className="cursor-pointer"
+            >
               System
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -62,7 +76,7 @@ const Navbar = () => {
             <DropdownMenuItem className="cursor-pointer">
               <Settings className="h-[1.2rem] w-[1.2rem] mr-2" />
               Settings
-            </DropdownMenuItem >
+            </DropdownMenuItem>
             <DropdownMenuItem variant="destructive" className="cursor-pointer">
               <LogOut className="h-[1.2rem] w-[1.2rem] mr-2" />
               Logout

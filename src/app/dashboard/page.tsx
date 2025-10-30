@@ -1,6 +1,7 @@
 "use client";
 
 import { BudgetCategoryAreaChart } from "@/components/BudgetCategoryAreaChart";
+import { ChartAreaInteractive } from "@/components/ChartAreaInteractive";
 import {
   CardData,
   DashboardSectionCards,
@@ -69,27 +70,15 @@ export default function DashboardPage() {
     },
   ];
 
-  const handleTimeRangeChange = (range: "7d" | "30d" | "90d") => {
-    console.log("Time range changed to:", range);
-    // Fetch new data based on time range
-  };
-
   return (
     <div className="@container/main flex flex-1 flex-col gap-2">
       <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
         <DashboardSectionCards cards={dashboardCards} />
+        <div className="px-4 lg:px-6">
+          <ChartAreaInteractive />
+        </div>
+        {/* <DataTable data={data} /> */}
       </div>
-      <div className="flex flex-col gap-4 px-4 py-6 lg:px-6">
-        <BudgetCategoryAreaChart
-          title="Budget by Category"
-          description="Spending trends across your budget categories"
-          data={chartData}
-          categories={categories}
-          timeRange="30d"
-          onTimeRangeChange={handleTimeRangeChange}
-        />
-      </div>
-      {/* rest of your dashboard */}
     </div>
   );
 }

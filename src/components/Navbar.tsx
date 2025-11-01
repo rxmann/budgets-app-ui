@@ -17,14 +17,10 @@ import { SidebarTrigger, useSidebar } from "./ui/sidebar";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
-  const { toggleSidebar } = useSidebar();
   return (
     <nav className="p-4 flex items-center justify-between sticky top-0 bg-background z-10">
       {/* LEFT */}
       <SidebarTrigger className="cursor-pointer" />
-      {/* <Button variant="outline" onClick={toggleSidebar}>
-        Custom Button
-      </Button> */}
       {/* RIGHT */}
       <div className="flex items-center gap-4">
         <Link href="/dashboard">Home</Link>

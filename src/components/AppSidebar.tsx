@@ -6,8 +6,6 @@ import {
   CreditCard,
   FolderKanban,
   LayoutDashboard,
-  Plus,
-  Projector,
   Repeat,
   User2,
 } from "lucide-react";
@@ -32,8 +30,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { SidebarNavLink } from "./SidebarNavLink";
 
 const sidebarItems = [
   {
@@ -43,18 +40,17 @@ const sidebarItems = [
   },
   {
     title: "Categories",
-    url: "#",
+    url: "/budget-categories",
     icon: FolderKanban,
   },
   {
     title: "Budgets",
-    url: "#",
+    url: "/budgets",
     icon: CreditCard,
   },
 ];
 
 export const AppSidebar = () => {
-  const pathname = usePathname();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="py-4">
@@ -68,7 +64,7 @@ export const AppSidebar = () => {
                   width={20}
                   height={20}
                 />
-                <span>Budgets Dev</span>
+                <span>BudJet2Holiday</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -84,20 +80,7 @@ export const AppSidebar = () => {
             <SidebarMenu>
               {sidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      href={item.url}
-                      className={cn(
-                        "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                        pathname === item.url
-                          ? "bg-primary text-primary-foreground" // active state: filled
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground" // default state
-                      )}
-                    >
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  <SidebarNavLink item={item} />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -109,20 +92,13 @@ export const AppSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/#">
-                    <Repeat />
-                    See All Recurring Payments
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/#">
-                    <AlarmClock />
-                    Add Recurring Payment
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarNavLink
+                  item={{
+                    url: "/recurring-payments",
+                    title: "See All Recurring Payments",
+                    icon: Repeat,
+                  }}
+                />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
@@ -130,27 +106,16 @@ export const AppSidebar = () => {
 
         <SidebarGroup>
           <SidebarGroupLabel>Reminders</SidebarGroupLabel>
-          {/* <SidebarGroupAction>
-            <Plus /> <span className="sr-only">Add Project</span>
-          </SidebarGroupAction> */}
-
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/#">
-                    <Projector />
-                    See All Payment Reminders
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/#">
-                    <Plus />
-                    Add Payment Reminder
-                  </Link>
-                </SidebarMenuButton>
+                <SidebarNavLink
+                  item={{
+                    url: "/payment-reminders",
+                    title: "See All Payment Reminders",
+                    icon: AlarmClock,
+                  }}
+                />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

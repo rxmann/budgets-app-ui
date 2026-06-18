@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import {
     Card,
     CardHeader,
@@ -29,9 +29,16 @@ export function StatCard({
                              trend,
                              icon: Icon,
                          }: StatCardProps) {
-    const trendDirection = trend || (change >= 0 ? "up" : "down");
+    const trendDirection = trend || (change > 0 ? "up" : change < 0 ? "down" : "stable");
     const isPositive = trendDirection === "up";
-    const TrendIcon = isPositive ? TrendingUp : TrendingDown;
+    const isNegative = trendDirection === "down";
+    const isExpense = label === "Expenses";
+
+    const TrendIcon = trendDirection === "up"
+      ? TrendingUp
+      : trendDirection === "down"
+      ? TrendingDown
+      : Minus;
 
     return (
         <Card className="@container/card">
@@ -40,12 +47,18 @@ export function StatCard({
                 <CardTitle className="text-lg font-semibold tabular-nums">
                     {value}
                 </CardTitle>
+                {/* Badge showing trend and change */}
                 <CardAction className="py-1">
-                    <Badge variant="outline" className="text-xs">
-                        <TrendIcon className="size-3" />
-                        {isPositive ? "+" : ""}
-                        {change}%
-                    </Badge>
+                  <Badge
+                    variant="outline"
+                    className={`text-xs ${isExpense ? (isPositive ? "bg-tertiary/10 text-tertiary" : isNegative ? "bg-primary/10 text-primary" : "!bg-muted/10 text-muted-foreground") : (isPositive ? "bg-primary/10 text-primary" : isNegative ? "bg-tertiary/10 text-tertiary" : "!bg-muted/10 text-muted-foreground")}`}
+                  >
+                    <TrendIcon
+                      className={`size-3 ${isExpense ? (isPositive ? "text-tertiary/30" : isNegative ? "text-primary/30" : "text-muted-foreground/30") : (isPositive ? "text-primary/30" : isNegative ? "text-tertiary/30" : "text-muted-foreground/30")}`}
+                    />
+                    {isPositive && "+"}
+                    {change}%
+                  </Badge>
                 </CardAction>
             </CardHeader>
             <CardFooter className="flex-col items-start gap-1 text-xs">

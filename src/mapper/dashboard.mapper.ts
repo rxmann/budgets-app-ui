@@ -26,7 +26,7 @@ export function analyticsToCardsMapper(
         change: data.expense.percentageChange,
         description: data.expense.message,
         footer: `Previous: ${formatCurrency(data.expense.previous)}`,
-        trend: getTrendDirection(data.expense.trend),
+        trend: data.expense.percentageChange === 0 ? undefined : getTrendDirection(data.expense.trend),
         icon: TrendingDown,
     };
 
@@ -49,7 +49,7 @@ export function analyticsToCardsMapper(
         footer: data.reminders.overdueCount > 0
             ? `${data.reminders.overdueCount} overdue`
             : `${data.reminders.dueSoonCount} due soon`,
-        trend: data.reminders.overdueCount > 0 ? "down" : "up",
+        trend: data.reminders.overdueCount > 0 ? "down" : undefined,
         icon: AlertCircle,
     };
 

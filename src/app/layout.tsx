@@ -1,10 +1,8 @@
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { AppSidebar } from "@/components/shared/AppSidebar";
-import Navbar from "@/components/shared/Navbar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppLayoutProvider } from "@/components/providers/AppLayoutProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AuthProvider } from "../components/providers/AuthProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,8 +25,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const defaultOpen = false;
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased flex">
@@ -38,17 +34,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <AuthProvider> */}
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <AppSidebar />
-            <main className="w-full px-10">
-              <Navbar />
-              <div className="w-full">{children}</div>
-            </main>
-          </SidebarProvider>
-          {/* </AuthProvider> */}
+          <AuthProvider>
+            <AppLayoutProvider>{children}</AppLayoutProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+

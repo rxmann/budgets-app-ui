@@ -92,7 +92,7 @@ export function FilterComponent({ onApplyFilter }: FilterComponentProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="cursor-pointer">
+        <Button variant="outline" className="cursor-pointer h-10 px-4 text-sm font-medium">
           <Filter className="mr-2 h-4 w-4" />
           Filter
         </Button>

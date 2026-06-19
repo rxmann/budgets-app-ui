@@ -44,3 +44,32 @@ export interface StatCardProps {
 export interface SectionCardsProps {
     cards: StatCardProps[];
 }
+
+export interface ExpenseDistributionMetric {
+    periodStr: string;
+    category: string;
+    amount: number;
+    period: string; // YYYY-MM-DD
+}
+
+export interface CashFlowResponse {
+    dateRange: string;
+    period: string; // YYYY-MM-DD
+    incomeAmount: number;
+    expenseAmount: number;
+}
+
+export interface TreeNode {
+    name: string;
+    value: number;
+    percentage: number;
+}
+
+export interface TreeMapResponse {
+    name: string;
+    children: TreeNode[];
+}
+
+export interface DashboardRequest {
+    filter: "THIS_WEEK" | "THIS_MONTH" | "THIS_QUARTER" | "THIS_YEAR";
+}

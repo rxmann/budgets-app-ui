@@ -1,27 +1,23 @@
-// src/lib/auth.api.ts
-import { api } from "./api";
-
-type AuthResponse<T> = T;
+import { get, post } from "./api";
+import {
+  RegisterRequest,
+  AuthenticationRequest,
+  AuthenticationResponse,
+  UserResponse
+} from "@/types/user.types";
 
 export const authApi = {
-  getUser: async (): Promise<any | null> => {
+  getUser: async (): Promise<UserResponse | null> => {
     try {
-      const res = await api.get("/users/profile");
-      return res.data;
-    } catch (error: any) {
-      console.log("[authApi.getUser] Failed:", error.response?.data || error.message);
+      return await get<UserResponse>("/users/profile");
+    } catch {
       return null;
     }
   },
-  register: async (data: { email: string; password: string }): Promise<any> => {
-    return api.post("/auth/register", data);
-  },
-  login: async (data: { email: string; password: string }): Promise<any> => {
-    return api.post("/auth/login", data);
-  },
-  logout: async (): Promise<any> => {
-    return api.post("/auth/logout");
-  },
+  register: (data: RegisterRequest) =>
+    post<AuthenticationResponse>("/auth/register", data),
+  login: (data: AuthenticationRequest) =>
+    post<AuthenticationResponse>("/auth/login", data),
+  logout: () =>
+    post<void>("/auth/logout"),
 };
-
-

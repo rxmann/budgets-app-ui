@@ -5,80 +5,34 @@ import {
     GetBudgetsResponse,
     UpdateBudgetRequest
 } from "@/types/budget.types";
-import {api} from "@/lib/api";
+import { get, post, put, del } from "@/lib/api";
 
 /**
  * Fetch all budgets with optional filters and sorting
  */
-export async function getBudgets(params?: GetPaginationParams): Promise<GetBudgetsResponse> {
-    try {
-        const response = await api.get<GetBudgetsResponse>("/budgets", {
-            params,
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
+export const getBudgets = (params?: GetPaginationParams) =>
+    get<GetBudgetsResponse>("/budgets", { params });
 
 /**
  * Fetch a single budget by ID
  */
-export async function getBudgetById(id: string): Promise<BudgetResponse> {
-    try {
-        const response = await api.get<BudgetResponse>(`/budgets/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+export const getBudgetById = (id: string) =>
+    get<BudgetResponse>(`/budgets/${id}`);
 
 /**
  * Create a new budget
  */
-export async function createBudget(budget: CreateBudgetRequest): Promise<BudgetResponse> {
-    try {
-        const response = await api.post<BudgetResponse>(
-            "/budgets",
-            budget
-        );
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+export const createBudget = (budget: CreateBudgetRequest) =>
+    post<BudgetResponse>("/budgets", budget);
 
 /**
  * Update an existing budget
  */
-export async function updateBudget(
-    id: string,
-    budget: UpdateBudgetRequest
-): Promise<BudgetResponse> {
-    try {
-        const response = await api.put<BudgetResponse>(
-            `/budgets/${id}`,
-            budget
-        );
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+export const updateBudget = (id: string, budget: UpdateBudgetRequest) =>
+    put<BudgetResponse>(`/budgets/${id}`, budget);
 
 /**
  * Delete a budget
  */
-export async function deleteBudget(id: string): Promise<void> {
-    try {
-        await api.delete(`/budgets/${id}`);
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+export const deleteBudget = (id: string) =>
+    del<void>(`/budgets/${id}`);

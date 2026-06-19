@@ -33,26 +33,33 @@ api.interceptors.response.use(
   }
 );
 
+import { AxiosRequestConfig } from "axios";
+
 /**
  * Typed helper wrappers around the Axios instance.
  * Each returns the `data` payload directly for convenience.
  */
-export async function get<T>(url: string, config?: any): Promise<T> {
+export async function get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
   const res = await api.get<T>(url, config);
   return res.data;
 }
 
-export async function post<T>(url: string, payload: any, config?: any): Promise<T> {
+export async function post<T>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T> {
   const res = await api.post<T>(url, payload, config);
   return res.data;
 }
 
-export async function put<T>(url: string, payload: any, config?: any): Promise<T> {
+export async function put<T>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T> {
   const res = await api.put<T>(url, payload, config);
   return res.data;
 }
 
-export async function del<T>(url: string, config?: any): Promise<T> {
+export async function patch<T>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T> {
+  const res = await api.patch<T>(url, payload, config);
+  return res.data;
+}
+
+export async function del<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
   const res = await api.delete<T>(url, config);
   return res.data;
 }

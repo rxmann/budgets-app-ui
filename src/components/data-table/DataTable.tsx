@@ -16,7 +16,7 @@ import {
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
 import {DataTablePagination} from "./TablePagination";
 import {useState} from "react";
-import {Plus} from "lucide-react";
+import {Plus, Search} from "lucide-react";
 import {Button} from "../ui/button";
 import {Input} from "../ui/input";
 import {FilterComponent} from "./FilterComponent";
@@ -71,23 +71,26 @@ export function DataTable<TData, TValue>({
         <div className="w-full space-y-4">
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                    <Input
-                        placeholder="Filter Budgets..."
-                        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-                        onChange={(event) =>
-                            table.getColumn("name")?.setFilterValue(event.target.value)
-                        }
-                        className="max-w-xl min-w-sm"
-                    />
+                    <div className="relative flex items-center">
+                        <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            placeholder="Filter Budgets..."
+                            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                            onChange={(event) =>
+                                table.getColumn("name")?.setFilterValue(event.target.value)
+                            }
+                            className="pl-9 h-10 w-[280px] bg-background"
+                        />
+                    </div>
                     <FilterComponent onApplyFilter={setAppliedFilters}/>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                     {onManageCategories && (
                         <Button
                             size="sm"
                             variant="outline"
-                            className="cursor-pointer"
+                            className="cursor-pointer h-8 text-xs font-medium"
                             onClick={onManageCategories}
                         >
                             Categories
@@ -96,11 +99,11 @@ export function DataTable<TData, TValue>({
                     {onAddClick && (
                         <Button
                             size="sm"
-                            className="cursor-pointer"
+                            className="cursor-pointer h-8 text-xs font-medium"
                             onClick={onAddClick}
                         >
-                            <Plus className="mr-2 h-4 w-4"/>
-                            Add
+                            <Plus className="mr-1.5 h-3.5 w-3.5" />
+                            Add Budget
                         </Button>
                     )}
                 </div>

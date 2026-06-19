@@ -9,6 +9,8 @@ import { getBudgetCategories, createBudgetCategory, deleteBudgetCategory } from 
 import { BudgetSheet } from "@/components/form/BudgetForm";
 import { CategoryManageModal } from "@/components/form/CategoryManageModal";
 import { BudgetCategoryRequest } from "@/types/budget-categories.types";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function BudgetsPage() {
     const [budgets, setBudgets] = useState<BudgetResponse[]>([]);
@@ -109,11 +111,29 @@ export default function BudgetsPage() {
 
     return (
         <div className="@container/main flex mx-auto p-4 space-y-4 flex-col">
-            <div>
-                <h1 className="text-3xl font-bold">Budgets</h1>
-                <p className="text-muted-foreground">
-                    Manage your budgets and expenses
-                </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Budgets</h1>
+                    <p className="text-sm text-muted-foreground mt-1 select-none">
+                        Manage your budgets and expenses with real-time tracking.
+                    </p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={() => setIsCategoryModalOpen(true)}
+                        className="cursor-pointer h-10 px-4 text-sm font-medium"
+                    >
+                        Categories
+                    </Button>
+                    <Button
+                        onClick={handleAddClick}
+                        className="cursor-pointer bg-[#3b2fc9] hover:bg-[#3126ab] text-white font-medium h-10 px-4 flex items-center justify-center gap-1.5 shadow-sm border-none"
+                    >
+                        <Plus className="h-4 w-4" />
+                        Add Budget
+                    </Button>
+                </div>
             </div>
 
             <BudgetTable
@@ -122,8 +142,6 @@ export default function BudgetsPage() {
                 isLoading={isLoading}
                 error={error}
                 onRefresh={fetchBudgets}
-                onAddClick={handleAddClick}
-                onManageCategories={() => setIsCategoryModalOpen(true)}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
             />

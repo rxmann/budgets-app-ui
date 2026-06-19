@@ -1,5 +1,5 @@
-import {GetPaginationParams} from "@/types/budget.types";
-import {api} from "@/lib/api";
+import { GetPaginationParams } from "@/types/budget.types";
+import { get, post, put, del } from "@/lib/api";
 import {
     GetBudgetsCategoriesResponse,
     BudgetCategoryRequest,
@@ -7,35 +7,31 @@ import {
 } from "@/types/budget-categories.types";
 
 /**
- * Fetch all budgets with optional filters and sorting
+ * Fetch all budget categories with optional filters and sorting
  */
-export async function getBudgetCategories(params?: GetPaginationParams): Promise<GetBudgetsCategoriesResponse> {
-    try {
-        const response = await api.get<GetBudgetsCategoriesResponse>("/budgets/categories", {
-            params,
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+export const getBudgetCategories = (params?: GetPaginationParams) =>
+    get<GetBudgetsCategoriesResponse>("/budgets/categories", { params });
 
-export async function createBudgetCategory(data: BudgetCategoryRequest): Promise<BudgetCategoryResponse> {
-    try {
-        const response = await api.post<BudgetCategoryResponse>("/budgets/categories", data);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+/**
+ * Fetch a single budget category by ID
+ */
+export const getBudgetCategoryById = (categoryId: string) =>
+    get<BudgetCategoryResponse>(`/budgets/categories/${categoryId}`);
 
-export async function deleteBudgetCategory(categoryId: string): Promise<void> {
-    try {
-        await api.delete(`/budgets/categories/${categoryId}`);
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+/**
+ * Create a new budget category
+ */
+export const createBudgetCategory = (data: BudgetCategoryRequest) =>
+    post<BudgetCategoryResponse>("/budgets/categories", data);
+
+/**
+ * Update an existing budget category
+ */
+export const updateBudgetCategory = (categoryId: string, data: BudgetCategoryRequest) =>
+    put<BudgetCategoryResponse>(`/budgets/categories/${categoryId}`, data);
+
+/**
+ * Delete a budget category
+ */
+export const deleteBudgetCategory = (categoryId: string) =>
+    del<void>(`/budgets/categories/${categoryId}`);

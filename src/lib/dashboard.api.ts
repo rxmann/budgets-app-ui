@@ -1,21 +1,47 @@
-// ============================================================================
-// API SERVICE
-// ============================================================================
+import { get } from "@/lib/api";
+import {
+    DashboardAnalyticsResponse,
+    ExpenseDistributionMetric,
+    CashFlowResponse,
+    TreeMapResponse
+} from "@/types/Dashboard";
 
-import {DashboardAnalyticsResponse} from "@/types/Dashboard";
-import {api} from "@/lib/api";
+export type DashboardFilter = "THIS_WEEK" | "THIS_MONTH" | "THIS_QUARTER" | "THIS_YEAR";
 
-// API Service
-export async function getDashboardAnalytics(
-    filter: "THIS_WEEK" | "THIS_MONTH" | "THIS_QUARTER" | "THIS_YEAR"
-): Promise<DashboardAnalyticsResponse | null> {
+/**
+ * Fetch dashboard analytics overview
+ */
+export const getDashboardAnalytics = async (filter: DashboardFilter): Promise<DashboardAnalyticsResponse | null> => {
     try {
-        const res = await api.get<DashboardAnalyticsResponse>(
-            `/dashboard/analytics?filter=${filter}`
-        );
-        return res.data;
+        return await get<DashboardAnalyticsResponse>("/dashboard/analytics", {
+            params: { filter },
+        });
     } catch (err) {
         console.error("Dashboard API error:", err);
         return null;
     }
-}
+};
+
+/**
+ * Fetch expense distribution metrics
+ */
+export const getExpenseDistribution = (filter: DashboardFilter) =>
+    get<ExpenseDistributionMetric[]>("/dashboard/analytics/expense-distribution", {
+        params: { filter },
+    });
+
+/**
+ * Fetch cashflow analytics
+ */
+export const getCashflowAnalytics = (filter: DashboardFilter) =>
+    get<CashFlowResponse[]>("/dashboard/analytics/cashflow", {
+        params: { filter },
+    });
+
+/**
+ * Fetch budget splits composition
+ */
+export const getBudgetSplits = (filter: DashboardFilter) =>
+    get<TreeMapResponse>("/dashboard/analytics/budget-composition", {
+        params: { filter },
+    });

@@ -72,121 +72,116 @@ export function FilterComponent({ onApplyFilter }: FilterComponentProps) {
   const updateFilter = (
     id: string,
     key: keyof FilterCondition,
-    value: string
+    value: string,
   ) => {
     setFilters(filters.map((f) => (f.id === id ? { ...f, [key]: value } : f)));
   };
 
   const handleApply = () => {
-    const validFilters = filters.filter(
-      (f) => f.field && f.operation && f.value
-    );
-    onApplyFilter(validFilters);
-  };
-
-  const handleClearAll = () => {
-    setFilters([{ id: "1", field: "", operation: "", value: "" }]);
-    onApplyFilter([]);
+    try {
+      const validFilters = filters.filter(
+        (f) => f.field && f.operation && f.value,
+      );
+      onApplyFilter(validFilters);
+    } catch (error) {
+      console.error("Error applying filters:", error);
+    }
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="cursor-pointer h-10 px-4 text-sm font-medium">
-          <Filter className="mr-2 h-4 w-4" />
+        <Button variant="outline" className="px-2 py-1 text-xs">
+          <Filter className="mr-1 h-4 w-4" />
           Filter
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[600px] p-4">
-        <div className="space-y-4">
-          <div className="flex items-center justify-between border-b pb-2">
-            <span className="font-semibold text-sm">Filters</span>
-            <Button
-              variant={"ghost"}
-              onClick={handleClearAll}
-              className="ml-auto cursor-pointer "
-              size="sm"
-            >
-              Reset Filters
-            </Button>
-          </div>
+      <PopoverContent className="w-[300px] p-2">
+        <div className="flex items-center justify-between border-b pb-1">
+          <span className="font-semibold text-xs">Filters</span>
+          <Button
+            variant={"ghost"}
+            onClick={() =>
+              setFilters([{ id: "1", field: "", operation: "", value: "" }])
+            }
+            size="sm"
+            className="ml-auto"
+          >
+            Reset
+          </Button>
+        </div>
 
-          <div className="space-y-3">
-            {filters.map((filter, index) => (
-              <div key={filter.id} className="flex items-center gap-2">
-                <Select
-                  value={filter.field}
-                  onValueChange={(val) => updateFilter(filter.id, "field", val)}
-                >
-                  <SelectTrigger className="w-40">
-                    <SelectValue placeholder="Field" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filterFields.map((field) => (
-                      <SelectItem key={field.value} value={field.value}>
-                        {field.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Select
-                  value={filter.operation}
-                  onValueChange={(val) =>
-                    updateFilter(filter.id, "operation", val)
-                  }
-                >
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Operation" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filterOperations.map((op) => (
-                      <SelectItem key={op.value} value={op.value}>
-                        {op.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Input
-                  placeholder="Value"
-                  value={filter.value}
-                  onChange={(e) =>
-                    updateFilter(filter.id, "value", e.target.value)
-                  }
-                  className="flex-1"
-                />
-
-                <button
-                  onClick={() => removeFilter(filter.id)}
-                  className="text-gray-400 hover:text-red-600 p-1"
-                  disabled={filters.length === 1}
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex gap-2 pt-2 border-t">
-            {filters.length < 3 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={addFilter}
-                className="cursor-pointer text-xs"
+        <div className="space-y-2">
+          {filters.map((filter, index) => (
+            <div key={filter.id} className="flex items-center gap-2">
+              <Select
+                value={filter.field}
+                onValueChange={(val) => updateFilter(filter.id, "field", val)}
               >
-                + Add Filter
-              </Button>
-            )}
+                <SelectTrigger className="w-28">
+                  <SelectValue placeholder="Field" />
+                </SelectTrigger>
+                <SelectContent>
+                  {filterFields.map((field) => (
+                    <SelectItem key={field.value} value={field.value}>
+                      {field.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={filter.operation}
+                onValueChange={(val) =>
+                  updateFilter(filter.id, "operation", val)
+                }
+              >
+                <SelectTrigger className="w-24">
+                  <SelectValue placeholder="Operation" />
+                </SelectTrigger>
+                <SelectContent>
+                  {filterOperations.map((op) => (
+                    <SelectItem key={op.value} value={op.value}>
+                      {op.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Input
+                placeholder="Value"
+                value={filter.value}
+                onChange={(e) =>
+                  updateFilter(filter.id, "value", e.target.value)
+                }
+                className="flex-1 w-[60%]" // Adjusted width to 2/3 of the original
+              />
+
+              <button
+                onClick={() => removeFilter(filter.id)}
+                disabled={filters.length === 1}
+                className="text-gray-400 hover:text-red-600 p-1"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex gap-2 pt-1 border-t">
+          {filters.length < 3 && (
             <Button
-              onClick={handleApply}
-              className="ml-auto cursor-pointer"
+              variant="ghost"
               size="sm"
+              onClick={addFilter}
+              className="text-xs"
             >
-              Apply Filters
+              + Add Filter
             </Button>
-          </div>
+          )}
+          <Button onClick={handleApply} size="sm" className="ml-auto">
+            Apply
+          </Button>
         </div>
       </PopoverContent>
     </Popover>
